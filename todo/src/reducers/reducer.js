@@ -6,7 +6,7 @@ export const initialState = {
 
 export const todoReducer = (state, action) => {
     switch (action.type) {
-        case "TOGGLE_EDITING";
+        case "TOGGLE_EDITING":
             return {
                 ...state,
                 editing: !state.editing

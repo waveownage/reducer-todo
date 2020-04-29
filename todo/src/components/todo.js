@@ -1,21 +1,31 @@
 import React, { useState, useReducer } from "react";
-import { initialState, todoReducer } from "../reducers/reducer";
+import { initialState, itemReducer } from "../reducers/reducer";
+
+console.log(initialState);
+console.log(itemReducer);
 
 const Item = () => {
   const [newItemText, setNewItemText] = useState("");
-  const [state, dispatch] = useReducer(todoReducer, initialState);
+  const [state, dispatch] = useReducer(itemReducer, initialState);
 
   const handleChanges = e => {
     setNewItemText(e.target.value);
   };
 
+  clearCompleted = e => {
+    e.preventDefault();
+    setState({
+      items: state.items.filter(item => !item.completed)
+    });
+  };
+
   return (
     <div>
-      {!state.editing ? (
+      {!state.completed ? (
         <h1>
           {state.item}{" "}
-          <i
-            onClick={() => dispatch({ type: "TOGGLE_EDITING" })}
+          <button
+            onClick={() => dispatch({ type: "TOGGLE_COMPLETED" })}
             className="far fa-edit"
           />
         </h1>
@@ -30,7 +40,7 @@ const Item = () => {
           />
           <button
             onClick={() => {
-              dispatch({ type: "UPDATE_Item", payload: newItemText });
+              dispatch({ type: "UPDATE_ITEM", payload: newItemText });
               setNewItemText("");
             }}
           >

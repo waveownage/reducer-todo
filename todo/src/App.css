@@ -83,3 +83,8 @@ h4 {
   right: 12px;
   top: 9px;
 }
+
+.done {
+  text-decoration: line-through;
+  color: mediumseagreen;
+}

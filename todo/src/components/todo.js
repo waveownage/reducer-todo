@@ -1,55 +1,40 @@
-import React, { useState, useReducer } from "react";
-import { initialState, itemReducer } from "../reducers/reducer";
+import React, { useReducer, useState } from "react";
+import { itemReducer, initialState } from "../reducers/reducer";
+import TodoList from "./todoList";
 
-console.log(initialState);
-console.log(itemReducer);
-
-const Item = () => {
-  const [newItemText, setNewItemText] = useState("");
+function ToDo() {
   const [state, dispatch] = useReducer(itemReducer, initialState);
+  const [item, setItem] = useState("");
 
-  const handleChanges = e => {
-    setNewItemText(e.target.value);
+  const handleChanges = (e) => {
+    setItem(e.target.value);
   };
 
-  clearCompleted = e => {
+  const submitItem = (e) => {
     e.preventDefault();
-    setState({
-      items: state.items.filter(item => !item.completed)
-    });
+    dispatch({ type: "ADD_TODO", payload: item });
+    setItem("");
+  };
+
+
+
+  const toggleComplete = (ID) => {
+    dispatch({ type: "TOGGLE_COMPLETE", payload: ID });
   };
 
   return (
-    <div>
-      {!state.completed ? (
-        <h1>
-          {state.item}{" "}
-          <button
-            onClick={() => dispatch({ type: "TOGGLE_COMPLETED" })}
-            className="far fa-edit"
-          />
-        </h1>
-      ) : (
-        <div>
-          <input
-            className="item-input"
-            type="text"
-            name="newItemText"
-            value={newItemText}
-            onChange={handleChanges}
-          />
-          <button
-            onClick={() => {
-              dispatch({ type: "UPDATE_ITEM", payload: newItemText });
-              setNewItemText("");
-            }}
-          >
-            Update Item
-          </button>
-        </div>
-      )}
-    </div>
+    <section className="inputForm">
+      <form onSubmit={submitItem}>
+        <input type="text" name="item" value={item} onChange={handleChanges} />
+        <button className="addItem">Add</button>
+      </form>
+      <TodoList
+        item={state.todoItems}
+        dispatch={dispatch}
+        toggle={toggleComplete}
+      />
+    </section>
   );
-};
+}
 
-export default Item;
+export default ToDo;

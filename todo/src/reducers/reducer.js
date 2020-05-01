@@ -1,35 +1,54 @@
-export const initialState = {
-    item: "Learn about reducers",
-    completed: false,
-    id: 123,
+const initialState = {
+    todoItems: [
+      {
+        item: "Learn about reducers",
+        completed: false,
+        id: 3892987589,
+      },
+      {
+        item: "Learn about reducers",
+        completed: false,
+        id: 3892987587,
+      }
+    ],
   };
-
-export const itemReducer = (state, action) => {
+  const itemReducer = (state, action) => {
     switch (action.type) {
-        case "ADD-ITEM":
-            return {
-                ...state,
-                item: action.payload,
-                id: Date.now(),
-                completed: false,
-
-            };
-        case "TOOGLE_ITEM":
-            return {
-                ...state,
-                state :state.map((item) => {
-                    if(item.id === action.payload) {
-                        return{...item, completed: !item.completed}
-                    }
-                })
-            };
-        case "CLEAR_COMPLETED":
-            return {
-                ...state,
-                state: state.filter((item) => !item.completed),
-            };
-            default:
-                return state;
-        
+      case "ADD_TODO":
+        return {
+          ...state,
+          todoItems: [
+            ...state.todoItems,
+            {
+              item: action.payload,
+              id: Date.now(),
+              completed: false,
+            },
+          ],
+        };
+      case "TOGGLE_COMPLETE":
+        return {
+          ...state,
+          todoItems: state.todoItems.map(item => {
+            if (item.id === action.payload) {
+              return { ...item, completed: !item.completed };
+            } else {
+              return item;
+            }
+          }),
+        };
+  
+      case "CLEAR_COMPLETE":
+        return {
+          ...state,
+          todoItems: state.todoItems.filter(item => !item.completed),
+        };
+  
+      default:
+        return state;
     }
-};
+  };
+  
+  export { initialState, itemReducer };
+
+  

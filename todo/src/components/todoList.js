@@ -3,7 +3,7 @@ import React from "react";
 const TodoList = props => {
     const clearCompleted = e => {
       e.preventDefault();
-      props.dispatch({ type: "CLEAR_COMPLETED" });
+      props.dispatch({ type: "CLEAR_COMPLETE" });
     };
   
     return (
